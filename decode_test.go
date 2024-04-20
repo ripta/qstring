@@ -132,14 +132,17 @@ func TestUnmarshalTime(t *testing.T) {
 	type Query struct {
 		Created     time.Time
 		LastUpdated time.Time
+		Delay       time.Duration
 	}
 
 	createdTS := "2006-01-02T15:04:05Z"
 	updatedTS := "2016-01-02T15:04:05-07:00"
+	delay := "1h2m3s"
 
 	query := url.Values{
 		"created":     []string{createdTS},
 		"lastupdated": []string{updatedTS},
+		"delay":       []string{delay},
 	}
 
 	params := &Query{}
@@ -154,6 +157,10 @@ func TestUnmarshalTime(t *testing.T) {
 
 	if params.LastUpdated.Format(time.RFC3339) != updatedTS {
 		t.Errorf("Expected update ts of %s, got %s instead.", updatedTS, params.LastUpdated.Format(time.RFC3339))
+	}
+
+	if params.Delay.String() != delay {
+		t.Errorf("Expected delay of %s, got %s instead.", delay, params.Delay.String())
 	}
 }
 

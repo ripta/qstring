@@ -123,7 +123,12 @@ func marshalValue(field reflect.Value, source reflect.Kind) string {
 	case reflect.Bool:
 		return strconv.FormatBool(field.Bool())
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return strconv.FormatInt(field.Int(), 10)
+		switch field.Interface().(type) {
+		case time.Duration:
+			return field.Interface().(time.Duration).String()
+		default:
+			return strconv.FormatInt(field.Int(), 10)
+		}
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return strconv.FormatUint(field.Uint(), 10)
 	case reflect.Float32, reflect.Float64:

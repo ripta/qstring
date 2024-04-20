@@ -160,14 +160,21 @@ func TestMarshalTime(t *testing.T) {
 	type Query struct {
 		Created     time.Time
 		LastUpdated time.Time
+		Delay       time.Duration
 	}
 
 	createdTS := "2006-01-02T15:04:05Z"
 	createdTime, _ := time.Parse(time.RFC3339, createdTS)
 	updatedTS := "2016-01-02T15:04:05-07:00"
 	updatedTime, _ := time.Parse(time.RFC3339, updatedTS)
+	delay := "1h2m3s"
+	delayDur, _ := time.ParseDuration(delay)
 
-	q := &Query{Created: createdTime, LastUpdated: updatedTime}
+	q := &Query{
+		Created:     createdTime,
+		LastUpdated: updatedTime,
+		Delay:       delayDur,
+	}
 	result, err := MarshalString(q)
 	if err != nil {
 		t.Fatalf("Unable to marshal timestamp: %s", err.Error())
@@ -179,8 +186,11 @@ func TestMarshalTime(t *testing.T) {
 		t.Fatalf("Unable to unescape query string %q: %q", result, err.Error())
 	}
 
-	expected := []string{"created=2006-01-02T15:04:05Z",
-		"lastupdated=2016-01-02T15:04:05-07:00"}
+	expected := []string{
+		"created=2006-01-02T15:04:05Z",
+		"lastupdated=2016-01-02T15:04:05-07:00",
+		"delay=1h2m3s",
+	}
 	for _, ts := range expected {
 		if !strings.Contains(unescaped, ts) {
 			t.Errorf("Expected query string %s to contain %s", unescaped, ts)
