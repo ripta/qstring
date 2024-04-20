@@ -118,9 +118,17 @@ func (d *decoder) coerce(query string, target reflect.Kind, field reflect.Value)
 			field.SetBool(c.(bool))
 		}
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		c, err = strconv.ParseInt(query, 10, 64)
-		if err == nil {
-			field.SetInt(c.(int64))
+		switch field.Interface().(type) {
+		case time.Duration:
+			c, err = time.ParseDuration(query)
+			if err == nil {
+				field.SetInt(c.(time.Duration).Nanoseconds())
+			}
+		default:
+			c, err = strconv.ParseInt(query, 10, 64)
+			if err == nil {
+				field.SetInt(c.(int64))
+			}
 		}
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		c, err = strconv.ParseUint(query, 10, 64)
