@@ -4,7 +4,7 @@ and from structs.
 
 ## Installation
 ```bash
-$ go get github.com/dyninc/qstring
+$ go get github.com/ripta/qstring
 ```
 
 ## Examples
@@ -17,7 +17,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/dyninc/qstring"
+	"github.com/ripta/qstring"
 )
 
 // Query is the http request query struct.
@@ -64,7 +64,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dyninc/qstring"
+	"github.com/ripta/qstring"
 )
 
 // Query is the http request query struct.
@@ -94,7 +94,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dyninc/qstring"
+	"github.com/ripta/qstring"
 )
 
 // Query is the http request query struct.
@@ -126,7 +126,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/dyninc/qstring"
+	"github.com/ripta/qstring"
 )
 
 // PagingParams represents common pagination information for query strings
@@ -191,5 +191,5 @@ logical operators (<, >, <=, >=) such as `?created<=2006-01-02T15:04:05Z`
 ```
 BenchmarkUnmarshall-4 	  500000	      2711 ns/op	     448 B/op	      23 allocs/op
 BenchmarkRawPLiteral-4	 1000000	      1675 ns/op	     448 B/op	      23 allocs/op
-ok  	github.com/dyninc/qstring	3.163s
+ok  	github.com/ripta/qstring	3.163s
 ```
